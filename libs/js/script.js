@@ -6,6 +6,17 @@ $(document).ready(() => {
     getDepartmentCountByLocation();
 });
 
+let departments, 
+locations, 
+departmentID, 
+locationID, 
+employeeCountByDepartment, 
+departmentCountByLocation, 
+departmentLocationID, 
+employee = { id: 0, firstName: "", lastName: "", email: "", jobTitle: "", department: "", location: ""};
+
+console.log(employee);
+
 $(window).on("load", () => {
     setTimeout(() => {
         $(".preloader-wrapper").fadeOut('slow', function() {
@@ -31,7 +42,7 @@ $("#searchBar").on("input", () => {
 $("#addEmployeeBtn").click((e) => {
     departmentSelectPopulation(),
     $("#createProfileBtn").removeClass("d-none"),
-    $("#updateProfileInput").addClass("d-none"),
+    $("#updateProfileBtn").addClass("d-none"),
     $("#editProfileBtn").addClass("d-none"),
     $("#deleteProfileBtn").addClass("d-none"),
         $(".newFirstName").val(""),
@@ -74,7 +85,7 @@ $("#employeeTable").on("click", ".tableInformation", (value) => {
         departmentSelectPopulation(),
         getEmployeeByID(currentID),
         $("#createProfileBtn").addClass("d-none"),
-        $("#updateProfileInput").addClass("d-none"),
+        $("#updateProfileBtn").addClass("d-none"),
         $("#editProfileBtn").removeClass("d-none"),
         $("#deleteProfileBtn").removeClass("d-none"),
             $(".newFirstName").attr("readonly", !1),
@@ -145,6 +156,155 @@ $(".departmentLocationList").on("click", ".locationInformation", (value) => {
     })
 });
 
+// Add Department 
+$("#addDepartmentBtn").click(() => {
+    departmentFormPopulation(),
+    $("#newDepartmentForm").removeClass("d-none"),
+    $("#newLocationForm").addClass("d-none"),
+    $("#createDepartmentBtn").removeClass("d-none"),
+    $("#updateDepartmentBtn").addClass("d-none"),
+    $("#editDepartmentBtn").addClass("d-none"),
+    $("#deleteDepartmentBtn").addClass("d-none"),
+    $("#newDepartmentName").val(""),
+    $("#newDepartmentName").attr("readonly", !1),
+    $("#setLocation").attr("disabled", !1),
+    validatorReset();
+});
+// Add Location
+$("#addLocationBtn").click(() => {
+    $("#newLocationForm").removeClass("d-none"),
+    $("#newDepartmentForm").addClass("d-none"),
+    $("#createLocationBtn").removeClass("d-none"),
+    $("#updateLocationBtn").addClass("d-none"),
+    $("#editLocationBtn").addClass("d-none"),
+    $("#deleteLocationBtn").addClass("d-none"),
+    $("#newLocationName").val(""),
+    $("#newLocationName").attr("readonly", !1),
+    validatorReset();
+});
+
+// When Delete Employee button is clicked
+$("#deleteProfileBtn").click(() => {
+    $("#deleteBody").empty(),
+    $("#deleteBody").append("<p>Are you sure you want to delete this profile?</p>"),
+    $("#deleteEmployee").removeClass("d-none"),
+    $("#deleteDepartment").addClass("d-none"),
+    $("#deleteLocation").addClass("d-none");
+});
+
+// Delete buttons
+$("#deleteDepartmentBtn").click(() => getEmployeeCountByDepartmentID(departmentID)),
+$("#deleteLocationBtn").click(() => getDepartmentCountByLocationID(locationID)),
+$("#deleteEmployee").click(() =>  deleteEmployee(employee.id)),
+$("#deleteDepartment").click(() => deleteDepartment(departmentID)),
+$("#deleteLocation").click(() => deleteLocation(locationID));
+
+//  Delete functions
+//  deleteEmployee
+const deleteEmployee = (id) => {
+    $.ajax({
+        url: "libs/php/deleteEmployee.php",
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        success: (result) => {
+            console.log(result);
+            "200" === result.status.code 
+            ? (setModalContent("Employee", "deleted", !0), (employee.id = 0), getAll("name")) 
+            : setModalContent("Employee", "deleted", !1, result.status.code, result.status.description);
+        },
+        error: (e, t, a) => {
+            setModalContent("Employee", "deleted", !1, t, a);
+        }
+    })
+};
+// deleteDepartment
+const deleteDepartment = (id) => {
+    $.ajax({
+        url: "libs/php/deleteDepartment.php",
+        type: "POST",
+        dataType: "json",
+        data: { id: id },
+        success: (result) => {
+            console.log(result);
+            "200" === result.status.code
+            ? (setModalContent("Department", "deleted", !0), (departmentID = 0), getAllDepartments(), getEmployeeCountByDepartment())
+            : setModalContent("Department", "deleted", !1, result.status.code, result.status.description);
+        },
+        error: (e, t, a) => {
+            setModalContent("Department", "deleted", !1, t, a);
+        }
+    })
+};
+// deleteLocation
+const deleteLocation = (id) => {
+    $.ajax({
+        url: "libs/php/deleteLocation.php",
+        type: "POST", 
+        dataType: "json",
+        data: { id: id },
+        success: (result) => {
+            console.log(result);
+            "200" === result.status.code
+            ? (setModalContent("Location", "deleted", !0), (locationID = 0), getAllLocations(), getDepartmentCountByLocation())
+            : setModalContent("Location", "deleted", !1, result.status.code, result.status.description);
+        },
+        error: (e, t, a) => {
+            setModalContent("Location", "deleted", !1, t, a);
+        }
+    })
+};
+
+// Edit Buttons
+// Edit Profile Pencil functionality
+$("#editProfileBtn").click(() => {
+    departmentSelectPopulation(),
+    validatorReset(),
+    $("#createProfileBtn").addClass("d-none"),
+    $("#updateProfileBtn").removeClass("d-none"),
+    $("#editProfileBtn").addClass("d-none"),
+    $("#deleteProfileBtn").addClass("d-none"),
+    $(".newFirstName").attr("readonly", !1),
+    $(".newLastName").attr("readonly", !1),
+    $(".newEmail").attr("readonly", !1),
+    $(".newJobTitle").attr("readonly", !1),
+    $(".newDepartment").attr("disabled", !1),
+    $(".newDepartment option").each(function () {
+        if ($(this).val() == employee.department) {
+            $(this).prop("selected", "selected");
+            let value = $(this).attr("data-locationid");
+            locationInputPopulation(value);
+        }
+    });
+});
+// Edit Department
+$("#editDepartmentBtn").click(() => {
+    departmentFormPopulation(),
+    validatorReset(),
+    $("#createDepartmentBtn").addClass("d-none"),
+    $("#updateDepartmentBtn").removeClass("d-none"),
+    $("#editDepartmentBtn").addClass("d-none"),
+    $("#deleteDepartmentBtn").addClass("d-none"),
+    $("#newDepartmentName").attr("readonly", !1),
+    $("#setLocation").attr("disabled", !1),
+    $("#setLocation option").each(function () {
+        $(this).attr("id") == departmentLocationID && $(this).prop("selected", "selected");
+    })
+})
+// Edit Location
+$("#editLocationBtn").click(() => {
+    validatorReset(),
+    $("#createLocationBtn").addClass("d-none"),
+    $("#updateLocationBtn").removeClass("d-none"),
+    $("#editLocationBtn").addClass("d-none"),
+    $("#deleteLocationBtn").addClass("d-none"),
+    $("#newLocationName").attr("readonly", !1);
+})
+
+// Update functions
+$("#updateProfileBtn").click(() => updateEmployee());
+$("#updateDepartmentBtn").click(() => updateDepartment());
+$("#updateLocationBtn").click(() => updateLocation());
 
 
 
@@ -153,44 +313,6 @@ $(".departmentLocationList").on("click", ".locationInformation", (value) => {
 
 
 
-let departments, 
-locations, 
-departmentID, 
-locationID, 
-employeeCountByDepartment, 
-departmentCountByLocation, 
-departmentLocationID, 
-employee = { id: 0, firstName: "", lastName: "", email: "", jobTitle: "", department: "", location: ""};
-
-// Creating new profile
-/*
-$("input[name='firstName'], input[name='lastName']").change(function() {
-
-    $('#newEmployeeImage').empty();
-    $('#newEmployeeImage').css('line-height', '185px');
-
-    let firstName = $('#firstName').val();
-    let lastName = $('#lastName').val();
-    let initials = firstName.charAt(0) + lastName.charAt(0);
-    initials = initials.toUpperCase();
-
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-        const hex = color.replace('#', '');
-        const c_r = parseInt(hex.substr(0, 2), 16);
-        const c_g = parseInt(hex.substr(2, 2), 16);
-        const c_b = parseInt(hex.substr(4, 2), 16);
-        const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
-        
-        brightness > 210 ? $('#newEmployeeImage').css('color', '#5c6464') : $('#newEmployeeImage').css('color', "#fff");
-
-    $('#newEmployeeImage').text(initials);
-    $('#newEmployeeImage').css('background', color);
-}); 
-*/
 
 // Retrieve all data - SortBy
 const getAll = (type) => {
@@ -202,7 +324,6 @@ const getAll = (type) => {
         success: (result) => {
             if (("200" !== result.status.code && alert(result.status.name + ": " + result.status.description), "200" == result.status.code)) {
         let data = result.data;  
-        console.log(data);
         $('#employeeTable').empty();
 
           data.forEach((e) => {
