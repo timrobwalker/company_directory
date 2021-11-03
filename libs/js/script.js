@@ -1,11 +1,3 @@
-$(document).ready(() => {
-    getAll("name"),
-    getAllDepartments(),
-    getAllLocations(),
-    getEmployeeCountByDepartment();
-    getDepartmentCountByLocation();
-});
-
 let departments, 
 locations, 
 departmentID, 
@@ -15,7 +7,13 @@ departmentCountByLocation,
 departmentLocationID, 
 employee = { id: 0, firstName: "", lastName: "", email: "", jobTitle: "", department: "", location: ""};
 
-console.log(employee);
+$(document).ready(() => {
+    getAll("name"),
+    getAllDepartments(),
+    getAllLocations(),
+    getEmployeeCountByDepartment();
+    getDepartmentCountByLocation();
+});
 
 $(window).on("load", () => {
     setTimeout(() => {
@@ -24,6 +22,10 @@ $(window).on("load", () => {
         });
     }, 2000);
 
+});
+
+$(window).keydown((e) => {
+    if (13 == e.keyCode) return e.preventDefault(), false;
 });
 
 // Search bar functionality
@@ -49,11 +51,11 @@ $("#addEmployeeBtn").click((e) => {
         $(".newLastName").val(""),
         $(".newEmail").val(""),
         $(".newJobTitle").val(""),
-        $(".newFirstName").attr("readonly", !1),
-        $(".newLastName").attr("readonly", !1),
-        $(".newEmail").attr("readonly", !1),
-        $(".newJobTitle").attr("readonly", !1),
-        $(".newDepartment").attr("disabled", !1),
+        $(".newFirstName").attr("readonly", false),
+        $(".newLastName").attr("readonly", false),
+        $(".newEmail").attr("readonly", false),
+        $(".newJobTitle").attr("readonly", false),
+        $(".newDepartment").attr("disabled", false),
         validatorReset();
 })
 
@@ -81,6 +83,7 @@ $("#sortByEmail").click(() => getAll("email"));
 $("#employeeTable").on("click", ".tableInformation", (value) => {
     let id = $(value.currentTarget).attr("id");
     let currentID = Number(id);
+    console.log(currentID);
     if (currentID != NaN) {
         departmentSelectPopulation(),
         getEmployeeByID(currentID),
@@ -88,11 +91,11 @@ $("#employeeTable").on("click", ".tableInformation", (value) => {
         $("#updateProfileBtn").addClass("d-none"),
         $("#editProfileBtn").removeClass("d-none"),
         $("#deleteProfileBtn").removeClass("d-none"),
-            $(".newFirstName").attr("readonly", !1),
-            $(".newLastName").attr("readonly", !1),
-            $(".newEmail").attr("readonly", !1),
-            $(".newJobTitle").attr("readonly", !1),
-            $(".newDepartment").attr("disabled", !1),
+            $(".newFirstName").attr("readonly", false),
+            $(".newLastName").attr("readonly", false),
+            $(".newEmail").attr("readonly", false),
+            $(".newJobTitle").attr("readonly", false),
+            $(".newDepartment").attr("disabled", false),
             validatorReset();
     } else {
 
@@ -114,8 +117,8 @@ $(".departmentLocationList").on("click", ".departmentInformation", (value) => {
     $("#updateLocationBtn").addClass("d-none"),
     $("#editLocationBtn").addClass("d-none"),
     $("#deleteLocationBtn").addClass("d-none"),
-    $("#newDepartmentName").attr("readonly",  !0),
-    $("#setLocation").attr("disabled", !0),
+    $("#newDepartmentName").attr("readonly", true),
+    $("#setLocation").attr("disabled", true),
     validatorReset(),
     departmentFormPopulation();
 
@@ -146,7 +149,7 @@ $(".departmentLocationList").on("click", ".locationInformation", (value) => {
     $("#updateLocationBtn").addClass("d-none"),
     $("#editLocationBtn").removeClass("d-none"),
     $("#deleteLocationBtn").removeClass("d-none"),
-    $("#newLocationName").attr("readonly", !0),
+    $("#newLocationName").attr("readonly", true),
     validatorReset();
 
     let id = $(value.currentTarget).attr("id");
@@ -166,10 +169,11 @@ $("#addDepartmentBtn").click(() => {
     $("#editDepartmentBtn").addClass("d-none"),
     $("#deleteDepartmentBtn").addClass("d-none"),
     $("#newDepartmentName").val(""),
-    $("#newDepartmentName").attr("readonly", !1),
-    $("#setLocation").attr("disabled", !1),
+    $("#newDepartmentName").attr("readonly", false),
+    $("#setLocation").attr("disabled", false),
     validatorReset();
 });
+
 // Add Location
 $("#addLocationBtn").click(() => {
     $("#newLocationForm").removeClass("d-none"),
@@ -179,7 +183,7 @@ $("#addLocationBtn").click(() => {
     $("#editLocationBtn").addClass("d-none"),
     $("#deleteLocationBtn").addClass("d-none"),
     $("#newLocationName").val(""),
-    $("#newLocationName").attr("readonly", !1),
+    $("#newLocationName").attr("readonly", false),
     validatorReset();
 });
 
@@ -202,6 +206,7 @@ $("#deleteLocation").click(() => deleteLocation(locationID));
 //  Delete functions
 //  deleteEmployee
 const deleteEmployee = (id) => {
+    console.log(id);
     $.ajax({
         url: "libs/php/deleteEmployee.php",
         type: "POST",
@@ -210,11 +215,11 @@ const deleteEmployee = (id) => {
         success: (result) => {
             console.log(result);
             "200" === result.status.code 
-            ? (setModalContent("Employee", "deleted", !0), (employee.id = 0), getAll("name")) 
-            : setModalContent("Employee", "deleted", !1, result.status.code, result.status.description);
+            ? (setModalContent("Employee", "deleted", true), (employee.id = 0), getAll("name")) 
+            : setModalContent("Employee", "deleted", false, result.status.code, result.status.description);
         },
         error: (e, t, a) => {
-            setModalContent("Employee", "deleted", !1, t, a);
+            setModalContent("Employee", "deleted", false, t, a);
         }
     })
 };
@@ -228,11 +233,11 @@ const deleteDepartment = (id) => {
         success: (result) => {
             console.log(result);
             "200" === result.status.code
-            ? (setModalContent("Department", "deleted", !0), (departmentID = 0), getAllDepartments(), getEmployeeCountByDepartment())
-            : setModalContent("Department", "deleted", !1, result.status.code, result.status.description);
+            ? (setModalContent("Department", "deleted", true), (departmentID = 0), getAllDepartments(), getEmployeeCountByDepartment())
+            : setModalContent("Department", "deleted", false, result.status.code, result.status.description);
         },
         error: (e, t, a) => {
-            setModalContent("Department", "deleted", !1, t, a);
+            setModalContent("Department", "deleted", false, t, a);
         }
     })
 };
@@ -246,11 +251,11 @@ const deleteLocation = (id) => {
         success: (result) => {
             console.log(result);
             "200" === result.status.code
-            ? (setModalContent("Location", "deleted", !0), (locationID = 0), getAllLocations(), getDepartmentCountByLocation())
-            : setModalContent("Location", "deleted", !1, result.status.code, result.status.description);
+            ? (setModalContent("Location", "deleted", true), (locationID = 0), getAllLocations(), getDepartmentCountByLocation())
+            : setModalContent("Location", "deleted", false, result.status.code, result.status.description);
         },
         error: (e, t, a) => {
-            setModalContent("Location", "deleted", !1, t, a);
+            setModalContent("Location", "deleted", false, t, a);
         }
     })
 };
@@ -264,11 +269,11 @@ $("#editProfileBtn").click(() => {
     $("#updateProfileBtn").removeClass("d-none"),
     $("#editProfileBtn").addClass("d-none"),
     $("#deleteProfileBtn").addClass("d-none"),
-    $(".newFirstName").attr("readonly", !1),
-    $(".newLastName").attr("readonly", !1),
-    $(".newEmail").attr("readonly", !1),
-    $(".newJobTitle").attr("readonly", !1),
-    $(".newDepartment").attr("disabled", !1),
+    $(".newFirstName").attr("readonly", false),
+    $(".newLastName").attr("readonly", false),
+    $(".newEmail").attr("readonly", false),
+    $(".newJobTitle").attr("readonly", false),
+    $(".newDepartment").attr("disabled", false),
     $(".newDepartment option").each(function () {
         if ($(this).val() == employee.department) {
             $(this).prop("selected", "selected");
@@ -285,12 +290,12 @@ $("#editDepartmentBtn").click(() => {
     $("#updateDepartmentBtn").removeClass("d-none"),
     $("#editDepartmentBtn").addClass("d-none"),
     $("#deleteDepartmentBtn").addClass("d-none"),
-    $("#newDepartmentName").attr("readonly", !1),
-    $("#setLocation").attr("disabled", !1),
+    $("#newDepartmentName").attr("readonly", false),
+    $("#setLocation").attr("disabled", false),
     $("#setLocation option").each(function () {
         $(this).attr("id") == departmentLocationID && $(this).prop("selected", "selected");
     })
-})
+});
 // Edit Location
 $("#editLocationBtn").click(() => {
     validatorReset(),
@@ -298,20 +303,271 @@ $("#editLocationBtn").click(() => {
     $("#updateLocationBtn").removeClass("d-none"),
     $("#editLocationBtn").addClass("d-none"),
     $("#deleteLocationBtn").addClass("d-none"),
-    $("#newLocationName").attr("readonly", !1);
-})
+    $("#newLocationName").attr("readonly", false);
+});
 
-// Update functions
+// Update buttons
 $("#updateProfileBtn").click(() => updateEmployee());
 $("#updateDepartmentBtn").click(() => updateDepartment());
 $("#updateLocationBtn").click(() => updateLocation());
 
+// Update functions
+// updateEmployee
+const updateEmployee = () => {
+    let id = Number(employee.id),
+        fname = $(".newFirstName").val().trim(),
+        lname = $(".newLastName").val().trim(),
+        job = $(".newJobTitle").val().trim(),
+        email = $(".newEmail").val().trim(),
+        did = Number($(".newDepartment :selected").attr("id"));
 
+        fname.length > 0 && lname.length > 0 && NaN != did ?
+        $.ajax({
+            url: "libs/php/updateEmployee.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id: id,
+                firstName: fname,
+                lastName: lname,
+                jobTitle: job,
+                email: email,
+                departmentID: did
+            },
+            success: (result) => {
+                "200" === result.status.code 
+                ? (setModalContent("Employee", "updated", true), getAll("name"))
+                : setModalContent("Employee", "updated", false, result.status.code, result.status.description);
+            },
+            error: (e, t, a) => {
+                setModalContent("Employee", "updated", false, t, a);
+            }
+        })
+        : setModalContent("Employee", "error", false);
+};
+// updateDepartment
+const updateDepartment = () => {
+    let id = departmentID,
+        name = $("#newDepartmentName").val(),
+        did = Number($("#setLocation :selected").attr("id"));
+    NaN != id && NaN != did
+        ? $.ajax({
+            url: "libs/php/updateDepartment.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id: id,
+                name: name,
+                locationID: did
+            },
+            success: (result) => {
+                "200" === result.status.code
+                    ? (setModalContent("Department", "updated", true), getAll("name"), getAllDepartments(), getEmployeeCountByDepartment(), (departmentID = 0))
+                    : setModalContent("Department", "updated", false, result.status.code, result.status.description);
+            },
+            error: (e, t, a) => {
+                setModalContent("Department", "updated", false, t, a);
+            },
+        })
+        : setModalContent("Department", "error", false);
+};
+// updateLocation
+const updateLocation = () => {
+    let id = locationID,
+      name = $("#newLocationName").val();
+    NaN != id && NaN != locationID
+        ? $.ajax({
+            url: "libs/php/updateLocation.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id: id,
+                name: name
+            },
+            success: (result) => {
+                "200" === t.status.code
+                    ? (setModalContent("Location", "updated", true), getAll("name"), getAllLocations(), getDepartmentCountByLocation(), (locationID = 0))
+                    : setModalContent("Location", "updated", false, result.status.code, result.status.description);
+            }, 
+            error: (e, t, a) => {
+                setModalContent("Location", "updated", false, t, a);
+            }
+        })
+        : setModalContent("Location", "error", false);
+};
 
+// Confirmation buttons
+$('.confirmBtn').click(() => {
+    getAll("name"),
+    getAllDepartments(),
+    getAllLocations(),
+    getEmployeeCountByDepartment(),
+    getDepartmentCountByLocation(),
+    $("#searchBar").val("");
+})
 
+$("#confirmDepartment").click(() => departmentMenuPopulation());
+$("#confirmLocation").click(() => locationMenuPopulation());
 
+$("#createProfileBtn").click(() => {
+    $("#createProfileBtn").addClass("clicked"),
+    $("#updateProfileBtn").removeClass("clicked");
+});
 
+$("#updateProfileBtn").click(() => {
+    $("#updateProfileBtn").removeClass("d-none"),
+    $("#updateProfileBtn").addClass("clicked"),
+    $("#updateDepartment").addClass("d-none"),
+    $("#updateLocation").addClass("d-none"),
+    $("#createProfileBtn").removeClass("clicked");
+})
 
+$("#newEmployeeForm").validator().on("submit", (value) => {
+    if (value.isDefaultPrevented()) {
+        let text = $(".newDepartment").find(":selected").text();
+        "Select Department" == text 
+        ? $(".newDepartment").css("border-color", "#E63946") 
+        : $(".newDepartment").css("border-color", "#ced4da");
+    } else
+        $("#createProfileBtn").hasClass("clicked") ? addEmployee()
+        : $("#updateProfileBtn").hasClass("clicked")
+        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this profile?</p>"), $("#updateModal").modal())
+        : alert("error");
+    return false;
+})
+
+$("#createDepartmentBtn").click(() => {
+    $("#createDepartmentBtn").addClass("d-none"),
+    $("#updateDepartmentBtn").removeClass("clicked");
+})
+
+$("#updateDepartmentBtn").click(() => {
+    $("#updateEmployee").addClass("d-none"),
+    $("#updateDepartment").removeClass("d-none"),
+    $("#updateLocation").addClass("d-none"),
+    $("#updateDepartmentBtn").addClass("clicked"),
+    $("#createDepartmentBtn").removeClass("clicked");
+})
+
+$("newDepartmentForm").validator().on("submit", (value) => {
+    if (value.isDefaultPrevented()) {
+        let text = $("#setLocation").find(":selected").text();
+        "Select Location" == text
+        ? $("#setLocation").css("border-color", "#E63946") 
+        : $("#setLocation").css("border-color", "#ced4da");
+    } else 
+        $("#createDepartmentBtn").hasClass("clicked") ? addDepartment()
+        : $("#updateDepartmentBtn").hasClass("clicked")
+        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this department?</p>"), $("#updateModal").modal())
+        : alert("error");
+    return false;
+})
+
+$("#createLocationBtn").click(() => {
+    $("#createLocationBtn").addClass("clicked"),
+    $("updateLocationBtn").removeClass("clicked");
+})
+
+$("#updateLocationBtn").click(() => {
+    $("#updateEmployee").addClass("d-none"),
+    $("#updateDeparture").addClass("d-none"),
+    $("#updateLocation").removeClass("d-none"),
+    $("#updateLocationBtn").addClass("clicked"),
+    $("#createLocationBtn").removeClass("clicked");
+})
+
+$("#newLocationForm").validator().on("submit", (value) => (
+    value.isDefaultPrevented()
+        ? $("#newLocationName").css("border-color", "#E63946")
+        : $("#createLocationBtn").hasClass("clicked")
+        ? addLocation()
+        : $("#updateLocationBtn").hasClass("clicked")
+        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this location?</p>"), $("#updateModal").modal())
+        : alert("error"),
+    !1
+    )
+);
+
+// Add functions
+// AddEmployee
+const addEmployee = () => {
+    let fname = $(".newFirstName").val().trim(),
+        lname = $(".newLastName").val().trim(),
+        job = $(".newJobTitle").val().trim(),
+        email = $(".newEmail").val().trim(),
+        did = Number($(".newDepartment :selected").attr("id"));
+
+        fname.length > 0 && lname.length > 0 && NaN != did ?
+            $.ajax({
+                url: "libs/php/insertEmployee.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    firstName: fname,
+                    lastName: lname,
+                    jobTitle: job,
+                    email: email,
+                    departmentID: did
+                },
+                success: (result) => {
+                    "200" === result.status.code 
+                    ? (setModalContent("Employee", "created", true), getAll("name")) 
+                    : setModalContent("Employee", "created", false, result.status.code, result.status.description);
+                },
+                error: (e, t, a) => {
+                    setModalContent("Employee", "created", false, t, a);
+                }
+            })
+            : setModalContent("Employee", "error", false);
+};
+
+// AddDepartment
+const addDepartment = () => {
+    let name = $("#newDepartmentName").val().trim(),
+          id = Number($("setLocation :selected").attr("id"));
+    name.length > 0 && NaN != id
+        ? $.ajax({
+            url: "libs/php/insertDepartment.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                name: name,
+                locationID: id
+            },
+            success: (result) => {
+                "200" === e.status.code
+                ? (setModalContent("Department", "created", true), getAllDepartments(), getEmployeeCountByDepartment(), (departmentID = 0))
+                : setModalContent("Department", "created", false, result.status.code, result.status.description);
+            },
+            error: (e, t, a) => {
+                setModalContent("Department", "created", false, t, a);
+            },
+        }) 
+    : setModalContent("Department", "error", false);
+};
+
+// AddLocation
+const addLocation = () => {
+    let name = $("#newLocationName").val().trim();
+    name.length > 0
+        ? $.ajax({
+            url: "libs/php/insertLocation.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+                name: name
+            },
+            success: (result) => {
+                "200" == result.status.code
+                ? (setModalContent("Location", "created", true), getAllLocations(), getDepartmentCountByLocation(), (locationID = 0))
+                : setModalContent("Location", "created", false, result.status.code, result.status.description);
+            },
+            error: (e, t, a) => {
+                setModalContent("Location", "created", false, t, a);
+            }
+        })
+        : setModalContent("Location", "error", false);
+}
 
 
 // Retrieve all data - SortBy
@@ -368,11 +624,11 @@ getEmployeeByID = (id) => {
                     (employee.department = a.department),
                     (employee.location = a.location),
                     // Clear window values & change to readonly
-                    $(".newFirstName").val("").attr("readonly", !0),
-                    $(".newLastName").val("").attr("readonly", !0),
-                    $(".newEmail").val("").attr("readonly", !0),
-                    $(".newJobTitle").val("").attr("readonly", !0),
-                    $(".newDepartment").val("").attr("disabled", !0),
+                    $(".newFirstName").val("").attr("readonly", true),
+                    $(".newLastName").val("").attr("readonly", true),
+                    $(".newEmail").val("").attr("readonly", true),
+                    $(".newJobTitle").val("").attr("readonly", true),
+                    $(".newDepartment").val("").attr("disabled", true),
                     // And now fill the employee window
                     $(".newFirstName").val(a.firstName),
                     $(".newLastName").val(a.lastName),
@@ -401,7 +657,9 @@ getEmployeeCountByDepartment = () => {
         type: "GET",
         dataType: "json",
         success: (result) => {  
-            "200" == result.status.code ? (employeeCountByDepartment = result.data) : alert(result.status.name + ": " + result.status.description);
+            "200" == result.status.code 
+            ? (employeeCountByDepartment = result.data) 
+            : alert(result.status.name + ": " + result.status.description);
         },
         error: (e, t, a) => {
             alert("Error: " + t);
@@ -482,7 +740,7 @@ getDepartmentCountByLocationID = (id) => {
                 } else alert(result.status.name + ": " + result.status.description);
         },
         error: (e, t, a) => {
-            alert("Error: " + e);
+            alert("Error: " + t);
         },
     })
 },
@@ -570,25 +828,47 @@ locationInputPopulation = (value) => {
 
 
 // Modal Content and Validator reset
-const setModalContent = (type, instruction, n, err, errdescription) => {
-  "Employee" === type 
-    ? ($("#confirmEmployee").removeClass("d-none"), $("#confirmDepartment").addClass("d-none"), $("#confirmLocation").addClass("d-none"))
-: "Department" === type
-    ? ($("#confirmEmployee").addClass("d-none"), $("#confirmDepartment").removeClass("d-none"), $("#confirmLocation").addClass("d-none"))
-: "Location" === type && ($("#confirmEmployee").addClass("d-none"), $("#confirmDepartment").addClass("d-none"), $("#confirmLocation").removeClass("d-none")),
-    n
-        ? ($("confirmationTitle").empty(), $("#confirmationBody").empty(), $("#confirmationTitle").text("Congrats!"), $("#confirmationBody").append("<p>" + type + " has been " + instruction + "!</p>"), $("#confirmationModal").modal())
-        : "error" === err
-        ? ($("#confirmationTitle").empty(),
+const setModalContent = (type, instruction, TorF, err, errdescription) => {
+
+switch (type) {
+    case "Employee":
+        $("#confirmEmployee").removeClass("d-none"), 
+        $("#confirmDepartment").addClass("d-none"), 
+        $("#confirmLocation").addClass("d-none");
+        break;
+    case "Department":
+        $("#confirmEmployee").addClass("d-none"),
+        $("#confirmDepartment").removeClass("d-none"),
+        $("#confirmLocation").addClass("d-none");
+        break;
+    case "Location":
+        $("#confirmEmployee").addClass("d-none"),
+        $("#confirmDepartment").addClass("d-none"),
+        $("#confirmLocation").removeClass("d-none");
+        break;
+}
+
+    if (TorF) {
+        $("#confirmationTitle").empty(), 
+        $("#confirmationBody").empty(), 
+        $("#confirmationTitle").text("Congrats!"), 
+        $("#confirmationBody").append("<p>" + type + " has been " + instruction + "!</p>"), 
+        $("#confirmationModal").modal();
+    } else {
+        if (err == "error") {
+           $("#confirmationTitle").empty(),
            $("#confirmationBody").empty(),
            $("#confirmationTitle").text("Failed!"),
            $("#confirmationBody").append("<p>Error: Form data cannot be processed. Please try again.</p>"),
-           $("#confirmationModal").modal())
-        : ($("#confirmationTitle").empty(),
+           $("#confirmationModal").modal();
+        } else {
+           $("#confirmationTitle").empty(),
            $("#confirmationBody").empty(),
            $("#confirmationTitle").text("Failed!"),
            $("#confirmationBody").append("<p>" + type + " could not be " + instruction + ".</p><p>Code: " + err + "<br>Description: " + errdescription + "</p>"),
-           $("#confirmationModal").modal());
+           $("#confirmationModal").modal();
+        }
+    }  
 };
 
 validatorReset = () => {
