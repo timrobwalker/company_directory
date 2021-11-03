@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Timothy Walker">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <title>Timothy Walker | Company Directory</title>
+
+        <link rel="icon" href="libs/extra/companydirectory_logo.png">
+        <!--Styles-->
+        <link rel="stylesheet" href="libs/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="libs/css/style.css">
+    </head>
+    <body>
+        <div class="preloader-wrapper">
+          <div class="preloader">
+          <img src="libs/extra/preloader.gif" alt="preloader">
+          </div>
+        </div>
+        <div class="fluid-container">
+            <div class="row">
+                <div class="col">
+                    <div class="row toprow">
+                    <!--Manage by Category Toggle Buttons-->
+                        <div class="dropdown" id="dropdownContainer">
+                            <button class="btn smallbtn shadow-none" title="Manage Locations" type="button" id="manageLocationBtn" type="button" data-bs-toggle="collapse" data-bs-target=".manageMenu" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-globe2" viewBox="0 0 16 16">
+                                    <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.472.257 2.282.287V1.077zM4.249 3.539c.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05c.362.184.763.349 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9.124 9.124 0 0 1-1.565-.667A6.964 6.964 0 0 0 1.018 7.5h2.49zm1.4-2.741a12.344 12.344 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332zM8.5 5.09V7.5h2.99a12.342 12.342 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.612 13.612 0 0 1 7.5 10.91V8.5H4.51zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741H8.5zm-3.282 3.696c.12.312.252.604.395.872.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a6.696 6.696 0 0 1-.598-.933 8.853 8.853 0 0 1-.481-1.079 8.38 8.38 0 0 0-1.198.49 7.01 7.01 0 0 0 2.276 1.522zm-1.383-2.964A13.36 13.36 0 0 1 3.508 8.5h-2.49a6.963 6.963 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667zm6.728 2.964a7.009 7.009 0 0 0 2.275-1.521 8.376 8.376 0 0 0-1.197-.49 8.853 8.853 0 0 1-.481 1.078 6.688 6.688 0 0 1-.597.933zM8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872A12.63 12.63 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.963 6.963 0 0 0 14.982 8.5h-2.49a13.36 13.36 0 0 1-.437 3.008zM14.982 7.5a6.963 6.963 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008h2.49zM11.27 2.461c.177.334.339.694.482 1.078a8.368 8.368 0 0 0 1.196-.49 7.01 7.01 0 0 0-2.275-1.52c.218.283.418.597.597.932zm-.488 1.343a7.765 7.765 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z"/>
+                                  </svg>
+                            </button>   
+                            <button class="btn smallbtn shadow-none" title="Manage Departments" type="button" id="manageDepartmentBtn" type="button" data-bs-toggle="collapse" data-bs-target=".manageMenu" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
+                                    <path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/>
+                                  </svg>
+                            </button>
+                        </div>
+                      <!--Search-->
+                      <div class="col" id="searchContainer"><input type="search" name="search" id="searchBar" placeholder="Search..."></div>
+                      <!--Add Employee-->
+                      <button class="btn btn-add btn-circle btn-sm" title="Add New Employee" id="addEmployeeBtn" type="button" data-bs-toggle="collapse" data-bs-target=".addMenu" aria-expanded="false" aria-controls="addMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-plus" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                          </svg>
+                      </button>
+                    </div>
+              <!--Employee table headers-->
+              <div class="row" id="header">
+                  <div class="col-3 col-sm-4 col-xl-3 nameColumn">
+                        <div class="headTitle">
+                            <b>Name</b><!--ICON-->
+                            <div class="sortByBtn" id="sortByEmployeeName" title="Sort By Employee Last Name">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+                                    <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-3 d-none d-xl-inline-block emailColumn">
+                        <div class="headTitle">
+                            <b>Email</b><!--ICON-->
+                            <div class="sortByBtn" id="sortByEmail" title="Sort By Email">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+                                    <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-3 col-sm-4 col-xl-3 d-none d-sm-inline-block locationColumn">
+                        <div class="headTitle">
+                            <b>Location</b><!--ICON-->
+                            <div class="sortByBtn" id="sortByLocation" title="Sort By Location">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+                                    <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-sm-4 col-xl-3 departmentColumn">
+                        <div class="headTitle">
+                            <b>Department</b><!--ICON-->
+                            <div class="sortByBtn" id="sortByDepartment" title="Sort By Department">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+                                    <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+                                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+           <div class="row">
+               <!--Employee TABLE CONTENT-->
+               <div class="col" id="employeeTable"></div>
+           </div>
+        </div>
+           <!---EMPLOYEE MENU SECTION-->
+           <div class="col h-100 w-100 d-none d-lg-block p-0">
+                <div id="menuScreen">
+                <!--DEFAULT-->  
+                <div id="menuScreenDefault" class=""><img class="cdlogo d-none d-sm-block" src="libs/extra/company_directory.png" alt="logo image"></div>
+                </div>    
+           </div>
+           </div>
+       </div>
+       <!--Various SLIDE MENUS--><!--Add/Update Employee-->
+       <div class="collapse slideMenu addMenu">
+           <div class="slideMenuContent">
+               <div class="menuContainer row w-100 m-0 d-flex justify-content-center">
+                   <div class="col newDetails">
+                       <div class="topContainer">
+                       <!--PENCIL EDIT BUTTON-->   
+                       <button class="btn smallbtn" title="Edit Profile" id="editProfileBtn" type="button" data-bs-target="#" aria-expanded="false" aria-controls="addMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                          </svg>
+                       </button> 
+                       <!--INTERACTIVE EMPLOYEE IMG-->
+                       <div id="newEmployeeImage">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                          </svg>
+                       </div>
+                       <!--TRASH DELETE BUTTON-->
+                       <button class="btn smallbtn" title="Delete Profile" id="deleteProfileBtn" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                          </svg>
+                       </button>
+                       </div>
+                       <!--FORM-->
+                       <form data-bs-toggle="validator" data-bs-disable="true" data-bs-focus="false" role="form" id="newEmployeeForm" class="newForm">
+                           <div class="inputContainer">
+                            <div class="row">
+                               <div class="form-group col col-md-6">
+                                   <label for="firstName" class="control-label">First name</label>
+                                   <input type="text" class="newFirstName form-control" id="firstName" name="firstName" value="" maxLength="30" pattern="[A-Za-z'\- ]+" required aria-required="true">
+                                   <div class="help-block with-errors"></div>
+                               </div>
+                               <div class="form-group col col-md-6">
+                                   <label for="lastName" class="control-label">Last name</label>
+                                   <input type="text" class="newLastName form-control" id="lastName" name="lastName" value="" maxLength="30" pattern="[A-Za-z'\- ]+" required aria-required="true">
+                                   <div class="help-block with-errors"></div>
+                               </div>
+                            </div>
+                            <div class="row">
+                               <div class="form-group">
+                                   <label for="email">Email Address</label>
+                                   <input type="email" class="newEmail form-control" name="email" value="" maxlength="50" required aria-required="true">
+                                   <div class="help-block with-errors"></div> 
+                               </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="jobTitle">Job Title</label>
+                                <input type="text" class="newJobTitle form-control" name="jobTitle" value="" maxlength="50" pattern="[A-Za-z'\- ]+" required aria-required="true">
+                                <div class="help-block with-errors"></div> 
+                            </div>
+                            <div class="row">
+                              <div class="form-group col col-md-6">
+                                  <label for="department">Department</label>
+                                  <select name="department" class="newDepartment form-control" required data-bs-validate="true"></select>
+                                  <div class="help-block with-errors"></div>
+                              </div>
+                              <div class="form-group col col-md-6">
+                                  <label for="location">Location</label>
+                                  <input type="text" class="newLocation form-control" name="location" value="" readonly>
+                              </div>
+                            </div>
+                            <!--CREATE / UPDATE / CANCEL BUTTONS-->
+                            <div class="buttonContainer">
+                                <button class="btn btn-create btn-circle btn-sm" title="Create Profile" id="createProfileBtn" type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-check" viewBox="0 0 16 16">
+                                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                      </svg>
+                                  </button>
+                                  <button class="btn btn-update btn-circle btn-sm" title="Update Profile" id="updateProfileInput" type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-check" viewBox="0 0 16 16">
+                                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                      </svg>
+                                  </button>
+                                  <button class="btn btn-cancel btn-circle btn-sm" title="Cancel" id="cancelProfileBtn" type="button" data-bs-toggle="collapse" data-bs-target=".addMenu" aria-expanded="false" aria-controls="addMenu">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-x" viewBox="0 0 16 16">
+                                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                        <path fill-rule="evenodd" d="M12.146 5.146a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                      </svg>
+                                  </button>
+                            </div>
+                           </div> 
+                       </form>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <!--Manage Departments/Locations Menus-->
+       <div class="collapse slideMenu manageMenu">
+           <div class="slideMenuContent">
+               <div class="menuContainer row w-100 m-0 d-flex justify-content-center">
+                   <div class="col manageList">
+                       <button class="btn smallbtn shadow-none d-none" title="Add Department" id="addDepartmentBtn" type="button" data-bs-toggle="collapse" data-bs-target=".addDepartmentLocationMenu" aria-expanded="false" aria-controls="addDepartmentLocationMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                          </svg> Add Department
+                       </button>
+                       <button class="btn smallbtn shadow-none" title="Add Location" id="addLocationBtn" type="button" data-bs-toggle="collapse" data-bs-target=".addDepartmentLocationMenu" aria-expanded="false" aria-controls="addDepartmentLocationMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                          </svg> Add Location
+                       </button>
+                       <!--Department Information MENU-->
+                       <div class="row mb-2 departmentInformationHeader">
+                        <div class="col-6 col-sm-6 align-items-center"><p>Department</p></div>
+                        <div class="col col-sm-3 pl-0 d-none d-sm-block align-items-center"><p>Location</p></div>
+                        <div class="col-4 col-sm-3 text-right"><p>Employees</p></div>
+                       </div>
+                       <!--Location Information MENU-->
+                       <div class="row mb-2 locationInformationHeader">
+                        <div class="col-2 d-none d-sm-inline-block"></div>
+                        <div class="col-7 col-sm-5"><p>Location</p></div>
+                        <div class="col-5 col-sm-3 text-right"><p>Departments</p></div>
+                        <div class="col-2 d-none d-sm-inline-block"></div>
+                       </div>
+                       <div class="departmentLocationList"></div>
+                       <button class="btn smallbtn shadow-none" title="Close Window" type="button" data-bs-toggle="collapse" data-bs-target=".manageMenu" aria-expanded="false" aria-controls="manageMenu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                          </svg> Close
+                       </button>
+                    </div>
+               </div>
+           </div>
+       </div>
+       <!--Add/update Department/Location Slide Menu-->
+       <div class="collapse slideMenu addDepartmentLocationMenu">
+           <div class="slideMenuContent">
+               <div class="menuContainer row w-100 m-0 d-flex justify-content-center">
+                   <div class="col newDetails">
+                       <!--Add New Department-->
+                       <form id="newDepartmentForm" class="newForm" data-bs-toggle="validator" data-bs-disable="true" data-bs-focus="false" role="form">
+                           <div class="form-group">
+                                <label for="newDepartmentName" class="control-label">Name</label>
+                                <input type="text" id="newDepartmentName" class="form-control" name="newDepartmentName" value="" maxlength="50" pattern="[A-Za-z'\- ]+" required aria-required="true">
+                                <div class="help-block with-errors"></div>
+                           </div>
+                           <div class="form-group">
+                                 <label for="setLocation" class="control-label">Location</label>
+                                 <select name="location" id="setLocation" class="form-control" required></select>
+                           </div>
+                           <div class="buttonContainer">
+                               <!--CREATE-->
+                               <button class="btn smallbtn shadow-none" title="Create Department" id="createDepartmentBtn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                  </svg> Create Department
+                               </button>
+                               <!--UPDATE-->
+                               <button class="btn smallbtn shadow-none" title="Update Department" id="updateDepartmentBtn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                  </svg> Update Department
+                               </button>
+                               <!--EDIT-->
+                               <button class="btn smallbtn shadow-none" title="Edit" id="editDepartmentBtn" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                  </svg> Edit
+                               </button>
+                               <!--DELETE-->
+                               <button class="btn smallbtn shadow-none" title="Delete" id="deleteDepartmentBtn" type="button" data-bs-toggle="modal" data-bs-target="#noDeleteModal" aria-expanded="false" aria-controls="#noDeleteModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                                  </svg> Delete
+                               </button>
+                               <!--CANCEL-->
+                               <button class="btn smallbtn shadow-none" title="Cancel" id="CancelDepartmentBtn" type="button" data-bs-toggle="collapse" data-bs-target=".addDepartmentLocationMenu" aria-expanded="false" aria-controls=".addDepartmentLocationMenu">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                                  </svg> Cancel
+                               </button>
+                           </div>
+                       </form>
+                       <!--Add new Location-->
+                       <form id="newLocationForm" class="newForm" data-bs-toggle="validator" data-bs-disable="true" data-bs-focus="false" role="form">
+                            <div class="form-group">
+                                <label for="newLocationName" class="control-label">Name</label>
+                                <input type="text" id="newLocationName" class="form-control" name="newLocationName" value="" maxlength="50" pattern="[A-Za-z'\- ]+" required aria-required="true">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="buttonContainer">
+                                 <!--CREATE-->
+                               <button class="btn smallbtn shadow-none" title="Create Location" id="createLocationBtn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                  </svg> Create Location
+                               </button>
+                               <!--UPDATE-->
+                               <button class="btn smallbtn shadow-none" title="Update Location" id="updateLocationBtn" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                  </svg> Update Location
+                               </button>
+                               <!--EDIT-->
+                               <button class="btn smallbtn shadow-none" title="Edit" id="editLocationBtn" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                  </svg> Edit
+                               </button>
+                               <!--DELETE-->
+                               <button class="btn smallbtn shadow-none" title="Delete" id="deleteLocationBtn" type="button" data-bs-toggle="modal" data-bs-target="#noDeleteModal" aria-expanded="false" aria-controls="#noDeleteModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                                  </svg> Delete
+                               </button>
+                               <!--CANCEL-->
+                               <button class="btn smallbtn shadow-none" title="Cancel" id="CancelLocationBtn" type="button" data-bs-toggle="collapse" data-bs-target=".addDepartmentLocationMenu" aria-expanded="false" aria-controls=".addDepartmentLocationMenu">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                                  </svg> Cancel
+                               </button>
+                            </div>
+                       </form>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <!--MODALS-->
+       <!--CONFIRMATION-->
+       <div class="modal fade" data-bs-backdrop="static" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered">
+               <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationTitle"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="confirmationBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary confirmBtn" id="confirmEmployee" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary confirmBtn" id="confirmDepartment" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary confirmBtn" id="confirmLocation" data-bs-dismiss="modal">Close</button>
+                    </div>
+               </div>
+           </div>
+       </div>
+       <!--FORBIDDEN-->
+       <div class="modal fade" data-bs-backdrop="static" id="noDeleteModal" tabindex="-1" aria-labelledby="noDeleteTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="noDeleteTitle">Warning</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="noDeleteBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>    
+       </div>
+       <!--DELETE WARNING-->
+       <div class="modal fade" data-bs-backdrop="static" id="deleteModal" tabindex="-1" aria-labelledby="deleteTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered">
+               <div class="modal-content">
+                   <div class="modal-header">
+                        <h5 class="modal-title" id="deleteTitle">Confirm</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="deleteBody">
+                        <p>hellohellohellohello</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteEmployeeBtn">Delete</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteDepartmentBtn">Delete</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deleteLocationBtn">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <!--UPDATE-->
+       <div class="modal fade" data-bs-backdrop="static" id="updateModal" tabindex="-1" aria-labelledby="updateTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered">
+               <div class="modal-content">
+                   <div class="modal-header">
+                        <h5 class="modal-title" id="updateTitle">Confirm</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="updateBody"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="updateEmployeeBtn">Update</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="updateDepartmentBtn">Update</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="updateLocationBtn">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                   </div>
+               </div>
+           </div>
+       </div>
+        <!--Javascript-->
+        <script src="libs/vendor/jquery/jquery-3.6.0.min.js"></script>
+        <script src="libs/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="libs/vendor/validator/validator.min.js"></script>
+        <script src="libs/js/script.js"></script>
+    </body>
+</html>
