@@ -13,6 +13,7 @@ $(document).ready(() => {
     getAllLocations(),
     getEmployeeCountByDepartment();
     getDepartmentCountByLocation();
+    
 });
 
 $(window).on("load", () => {
@@ -41,7 +42,7 @@ $("#searchBar").on("input", () => {
 })
 
 // Where Add Employee is clicked
-$("#addEmployeeBtn").click((e) => {
+$("#addEmployeeBtn").click(() => {
     departmentSelectPopulation(),
     $("#createProfileBtn").removeClass("d-none"),
     $("#updateProfileBtn").addClass("d-none"),
@@ -87,6 +88,7 @@ $("#employeeTable").on("click", ".tableInformation", (value) => {
     if (currentID != NaN) {
         departmentSelectPopulation(),
         getEmployeeByID(currentID),
+        $('.addMenu').collapse('show'),
         $("#createProfileBtn").addClass("d-none"),
         $("#updateProfileBtn").addClass("d-none"),
         $("#editProfileBtn").removeClass("d-none"),
@@ -584,17 +586,17 @@ const getAll = (type) => {
 
           data.forEach((e) => {
             $('#employeeTable').append(
-                '<div class="row tableInformation" data-bs-toggle="collapse" href=".addMenu" role="button" aria-expanded="false" aria-controls="addMenu" id="' +
+                '<div class="row tableInformation" href=".addMenu" role="button" aria-expanded="false" aria-controls="addMenu" id="' +
                 e.id +
-                '"><div class="col-3 col-sm-4 col-xl-3 nameColumn"><a class="employeeName" data-bs-toggle="collapse" href=".addMenu" role="button" aria-expanded="false" aria-controls="addMenu">' +
+                '"><div class="col-3 col-sm-4 col-xl-3 nameColumn"><a class="employeeName" role="button" aria-expanded="false">' +
                 e.firstName + 
                 " " +
                 e.lastName + 
-                '</a></div><div class="col-3 d-none d-xl-inline-block emailColumn"><a class="employeeEmail" data-bs-toggle="collapse" href=".addMenu" role="button" aria-expanded="false" aria-controls="addMenu">' +
+                '</a></div><div class="col-3 d-none d-xl-inline-block emailColumn"><a class="employeeEmail" role="button" aria-expanded="false">' +
                 e.email +
-                '</a></div><div class="col-3 col-sm-4 col-xl-3 d-none d-sm-inline-block locationColumn"><a class="employeeLocation" data-bs-toggle="collapse" href=".addMenu" role="button" aria-expanded="false" aria-controls="addMenu">' +
+                '</a></div><div class="col-3 col-sm-4 col-xl-3 d-none d-sm-inline-block locationColumn"><a class="employeeLocation" role="button" aria-expanded="false">' +
                 e.location + 
-                '</a></div><div class="col col-sm-4 col-xl-3 departmentColumn"><a class="employeeDepartment" data-bs-toggle="collapse" href=".addMenu" role="button" aria-expanded="false" aria-controls="addMenu">' +
+                '</a></div><div class="col col-sm-4 col-xl-3 departmentColumn"><a class="employeeDepartment" role="button" aria-expanded="false">' +
                 e.department + 
                 "</a></div></div>"
             );
@@ -657,6 +659,7 @@ getEmployeeCountByDepartment = () => {
         type: "GET",
         dataType: "json",
         success: (result) => {  
+            console.log(result);
             "200" == result.status.code 
             ? (employeeCountByDepartment = result.data) 
             : alert(result.status.name + ": " + result.status.description);

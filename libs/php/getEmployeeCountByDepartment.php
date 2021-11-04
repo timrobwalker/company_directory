@@ -1,13 +1,4 @@
 <?php
-
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getDepartmentByID.php?id=<id>
-
-	// remove next two lines for production	
-
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -71,7 +62,4 @@
     mysqli_close($conn);
 
 	echo json_encode($output); 
-
-	
-
 ?>
