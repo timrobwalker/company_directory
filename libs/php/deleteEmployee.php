@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 	
 	// this includes the login details
@@ -34,7 +26,7 @@
 
 	}	
 
-    $query = $conn->prepare('DELETE FROM department WHERE id = ?');
+    $query = $conn->prepare('DELETE FROM personnel WHERE id = ?');
 
     $query->bind_param("i", $_POST["id"]);
 

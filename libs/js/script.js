@@ -113,7 +113,7 @@ $(".departmentLocationList").on("click", ".departmentInformation", (value) => {
     $("#createDepartmentBtn").addClass("d-none"),
     $("#updateDepartmentBtn").addClass("d-none"),
     $("#editDepartmentBtn").removeClass("d-none"),
-    $("deleteDepartmentBtn").removeClass("d-none"),
+    $("#deleteDepartmentBtn").removeClass("d-none"),
     // Location buttons
     $("#createLocationBtn").addClass("d-none"),
     $("#updateLocationBtn").addClass("d-none"),
@@ -127,7 +127,7 @@ $(".departmentLocationList").on("click", ".departmentInformation", (value) => {
     let id = $(value.currentTarget).attr("id"),
        did = $(value.currentTarget).attr("data-locationID");
     departmentID = Number(id);
-    departmentLocationID = did;
+    departmentLocationID = Number(did);
     departments.forEach((value) => {
         value.id === id && ($("#newDepartmentName").val(value.name),
             $("#setLocation option").each(function () {
@@ -227,13 +227,13 @@ const deleteEmployee = (id) => {
 };
 // deleteDepartment
 const deleteDepartment = (id) => {
+    console.log(id);
     $.ajax({
         url: "libs/php/deleteDepartment.php",
         type: "POST",
         dataType: "json",
         data: { id: id },
         success: (result) => {
-            console.log(result);
             "200" === result.status.code
             ? (setModalContent("Department", "deleted", true), (departmentID = 0), getAllDepartments(), getEmployeeCountByDepartment())
             : setModalContent("Department", "deleted", false, result.status.code, result.status.description);
@@ -269,8 +269,8 @@ $("#editProfileBtn").click(() => {
     validatorReset(),
     $("#createProfileBtn").addClass("d-none"),
     $("#updateProfileBtn").removeClass("d-none"),
-    $("#editProfileBtn").addClass("d-none"),
-    $("#deleteProfileBtn").addClass("d-none"),
+    $("#editProfileBtn").removeClass("d-none"),
+    $("#deleteProfileBtn").removeClass("d-none"),
     $(".newFirstName").attr("readonly", false),
     $(".newLastName").attr("readonly", false),
     $(".newEmail").attr("readonly", false),
@@ -309,9 +309,9 @@ $("#editLocationBtn").click(() => {
 });
 
 // Update buttons
-$("#updateProfileBtn").click(() => updateEmployee());
-$("#updateDepartmentBtn").click(() => updateDepartment());
-$("#updateLocationBtn").click(() => updateLocation());
+$("#updateEmployee").click(() => updateEmployee());
+$("#updateDepartment").click(() => updateDepartment());
+$("#updateLocation").click(() => updateLocation());
 
 // Update functions
 // updateEmployee
@@ -338,7 +338,7 @@ const updateEmployee = () => {
             },
             success: (result) => {
                 "200" === result.status.code 
-                ? (setModalContent("Employee", "updated", true), getAll("name"))
+                ? (setModalContent("Employee", "updated", true), getAll("name"), $("#updateProfileBtn").removeClass("clicked"), $("#updateProfileBtn").addClass("disabled"))
                 : setModalContent("Employee", "updated", false, result.status.code, result.status.description);
             },
             error: (e, t, a) => {
@@ -387,7 +387,8 @@ const updateLocation = () => {
                 name: name
             },
             success: (result) => {
-                "200" === t.status.code
+                console.log(result);
+                "200" === result.status.code
                     ? (setModalContent("Location", "updated", true), getAll("name"), getAllLocations(), getDepartmentCountByLocation(), (locationID = 0))
                     : setModalContent("Location", "updated", false, result.status.code, result.status.description);
             }, 
@@ -417,30 +418,34 @@ $("#createProfileBtn").click(() => {
 });
 
 $("#updateProfileBtn").click(() => {
-    $("#updateProfileBtn").removeClass("d-none"),
-    $("#updateProfileBtn").addClass("clicked"),
+    $("#updateEmployee").removeClass("d-none"),
     $("#updateDepartment").addClass("d-none"),
     $("#updateLocation").addClass("d-none"),
+    $("#updateProfileBtn").addClass("clicked"),
     $("#createProfileBtn").removeClass("clicked");
 })
 
-$("#newEmployeeForm").validator().on("submit", (value) => {
-    if (value.isDefaultPrevented()) {
-        let text = $(".newDepartment").find(":selected").text();
-        "Select Department" == text 
-        ? $(".newDepartment").css("border-color", "#E63946") 
-        : $(".newDepartment").css("border-color", "#ced4da");
-    } else
-        $("#createProfileBtn").hasClass("clicked") ? addEmployee()
-        : $("#updateProfileBtn").hasClass("clicked")
-        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this profile?</p>"), $("#updateModal").modal())
-        : alert("error");
-    return false;
+$("#CancelProfileBtn").click(() => {
+    $("#updateProfileBtn").removeClass("clicked"),
+    $("#updateProfileBtn").addClass("disabled");
 })
 
+$("#newEmployeeForm").validator().on("submit", (value) => (
+    value.isDefaultPrevented()
+        ? $(".newDepartment").css("border-color", "#E63946") 
+        : $("#createProfileBtn").hasClass("clicked") 
+        ? addEmployee()
+        : $("#updateProfileBtn").hasClass("clicked")
+        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this profile?</p>"), $("#updateModal").modal("show"))
+        : alert("error"),
+    !1
+    )
+);
+
 $("#createDepartmentBtn").click(() => {
-    $("#createDepartmentBtn").addClass("d-none"),
-    $("#updateDepartmentBtn").removeClass("clicked");
+    $("#createDepartmentBtn").addClass("clicked"),
+    $("#updateDepartmentBtn").removeClass("clicked"),
+    departmentMenuPopulation();
 })
 
 $("#updateDepartmentBtn").click(() => {
@@ -451,28 +456,27 @@ $("#updateDepartmentBtn").click(() => {
     $("#createDepartmentBtn").removeClass("clicked");
 })
 
-$("newDepartmentForm").validator().on("submit", (value) => {
-    if (value.isDefaultPrevented()) {
-        let text = $("#setLocation").find(":selected").text();
-        "Select Location" == text
-        ? $("#setLocation").css("border-color", "#E63946") 
-        : $("#setLocation").css("border-color", "#ced4da");
-    } else 
-        $("#createDepartmentBtn").hasClass("clicked") ? addDepartment()
+$("#newDepartmentForm").validator().on("submit", (value) => (
+    value.isDefaultPrevented()
+        ? $(".newDepartment").css("border-color", "#E63946")
+        : $("#createDepartmentBtn").hasClass("clicked") 
+        ? addDepartment()
         : $("#updateDepartmentBtn").hasClass("clicked")
-        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this department?</p>"), $("#updateModal").modal())
-        : alert("error");
-    return false;
-})
+        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this department?</p>"), $("#updateModal").modal("show"))
+        : alert("error"),
+    !1
+    )       
+);
 
 $("#createLocationBtn").click(() => {
     $("#createLocationBtn").addClass("clicked"),
-    $("updateLocationBtn").removeClass("clicked");
+    $("#updateLocationBtn").removeClass("clicked"),
+    locationMenuPopulation();
 })
 
 $("#updateLocationBtn").click(() => {
     $("#updateEmployee").addClass("d-none"),
-    $("#updateDeparture").addClass("d-none"),
+    $("#updateDepartment").addClass("d-none"),
     $("#updateLocation").removeClass("d-none"),
     $("#updateLocationBtn").addClass("clicked"),
     $("#createLocationBtn").removeClass("clicked");
@@ -480,11 +484,11 @@ $("#updateLocationBtn").click(() => {
 
 $("#newLocationForm").validator().on("submit", (value) => (
     value.isDefaultPrevented()
-        ? $("#newLocationName").css("border-color", "#E63946")
+        ? $(".newLocation").css("border-color", "#E63946")
         : $("#createLocationBtn").hasClass("clicked")
         ? addLocation()
         : $("#updateLocationBtn").hasClass("clicked")
-        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this location?</p>"), $("#updateModal").modal())
+        ? ($("#updateBody").empty(), $("#updateBody").append("<p>Are you sure you want to update this location?</p>"), $("#updateModal").modal("show"))
         : alert("error"),
     !1
     )
@@ -526,7 +530,7 @@ const addEmployee = () => {
 // AddDepartment
 const addDepartment = () => {
     let name = $("#newDepartmentName").val().trim(),
-          id = Number($("setLocation :selected").attr("id"));
+          id = Number($("#setLocation :selected").attr("id"));
     name.length > 0 && NaN != id
         ? $.ajax({
             url: "libs/php/insertDepartment.php",
@@ -537,7 +541,7 @@ const addDepartment = () => {
                 locationID: id
             },
             success: (result) => {
-                "200" === e.status.code
+                "200" === result.status.code
                 ? (setModalContent("Department", "created", true), getAllDepartments(), getEmployeeCountByDepartment(), (departmentID = 0))
                 : setModalContent("Department", "created", false, result.status.code, result.status.description);
             },
@@ -570,6 +574,7 @@ const addLocation = () => {
         })
         : setModalContent("Location", "error", false);
 }
+
 
 
 // Retrieve all data - SortBy
@@ -617,6 +622,7 @@ getEmployeeByID = (id) => {
         data: { id: id },
         success: (result) => {
             if ("200" == result.status.code) {
+                console.log(result);
             let a = result.data.personnel[0];
                     (employee.id = a.id),
                     (employee.firstName = a.firstName),
@@ -659,10 +665,10 @@ getEmployeeCountByDepartment = () => {
         type: "GET",
         dataType: "json",
         success: (result) => {  
-            console.log(result);
             "200" == result.status.code 
             ? (employeeCountByDepartment = result.data) 
             : alert(result.status.name + ": " + result.status.description);
+            console.log(employeeCountByDepartment);
         },
         error: (e, t, a) => {
             alert("Error: " + t);
@@ -678,16 +684,22 @@ getEmployeeCountByDepartmentID = (id) => {
         data: { id: id },
         success: (result) => {
             if ("200" == result.status.code) {
-                let total = Number(result.data[0].employees);
-                total > 0
-                        ? ($("#noDeleteBody").empty(), $("#noDeleteBody").append("<p class='text-danger'>Cannot delete a department when at least one employee is assigned to it.</p>"), $("#noDeleteModal").modal())
-                        : ($("#deleteBody").empty(),
-                           $("#deleteBody").append("<p>Are you sure you want to delete this department?</p>"),
-                           $("#deleteEmployeeBtn").addClass("d-none"),
-                           $("#deleteDepartmentBtn").removeClass("d-none"),
-                           $("#deleteLocationBtn").addClass("d-none"),
-                           $("#deleteModal").modal());
-                    } else alert(result.status.name + ": " + result.status.description);
+                console.log(result);
+                if (result.data.length === 0) {
+                    $("#deleteBody").empty(),
+                    $("#deleteBody").append("<p>Are you sure you want to delete this department?</p>"),
+                    $("#deleteEmployee").addClass("d-none"),
+                    $("#deleteDepartment").removeClass("d-none"),
+                    $("#deleteLocation").addClass("d-none"),
+                    $("#deleteDepartmentBtn").attr("data-bs-target", "#deleteModal"),
+                    $("#deleteModal").modal("show");
+                } else {
+                    $("#noDeleteBody").empty(), 
+                    $("#noDeleteBody").append("<p class='text-danger'>Cannot delete a department when at least one employee is assigned to it.</p>"), 
+                    $("#deleteDepartmentBtn").attr("data-bs-target", "#noDeleteModal"),
+                    $("#noDeleteModal").modal("show");
+                }
+            }
         },
         error: (e, t, a) => {
             alert("Error: " + t);
@@ -731,20 +743,25 @@ getDepartmentCountByLocationID = (id) => {
         data: {id: id},
         success: (result) => {
             if ("200" == result.status.code) {
-                let total = Number(result.data[0].departments);
-                total > 0
-                        ? ($("#noDeleteBody").empty(), $("#noDeleteBody").append("<p class='text-danger'>Cannot delete a location when at least one department is assigned to it.</p>"), $("#noDeleteModal").modal())
-                        : ($("deleteBody").empty(),
-                          $("#deleteBody").append("<p>Are you sure you want to delete this location?</p>"),
-                          $("#deleteEmployeeBtn").addClass("d-none"),
-                          $("#deleteDepartmentBtn").addClass("d-none"),
-                          $("#deleteLocationBtn").removeClass("d-none"),
-                          $("#deleteModal").modal());
-                } else alert(result.status.name + ": " + result.status.description);
+                if (result.data.length === 0 ) {
+                    $("#deleteBody").empty(),
+                    $("#deleteBody").append("<p>Are you sure you want to delete this location?</p>"),
+                    $("#deleteEmployee").addClass("d-none"),
+                    $("#deleteDepartment").addClass("d-none"),
+                    $("#deleteLocation").removeClass("d-none"),
+                    $("#deleteLocationBtn").attr("data-bs-target", "#deleteModal"),
+                    $("#deleteModal").modal('show');
+                } else {
+                    $("#noDeleteBody").empty(), 
+                    $("#noDeleteBody").append("<p class='text-danger'>Cannot delete a location when at least one department is assigned to it.</p>"),
+                    $("#deleteLocationBtn").attr("data-bs-target", "#noDeleteModal"), 
+                    $("#noDeleteModal").modal('show');
+                }
+            }
         },
         error: (e, t, a) => {
             alert("Error: " + t);
-        },
+        }
     })
 },
 // Retrieve All Locations
@@ -754,6 +771,7 @@ getAllLocations = () => {
         type: "GET",
         dataType: "json",
         success: (result) => {
+            // console.log(result);
             "200" == result.status.code ? (locations = result.data) : alert(result.status.name + ": " + result.status.description);
             },
         error: (e, t, a) => {
@@ -786,7 +804,7 @@ departmentMenuPopulation = () => {
         $("#addLocationBtn").addClass("d-none"),
         $(".departmentInformationHeader").removeClass("d-none"),
         $(".locationInformationHeader").addClass("d-none"),
-            employeeCountByDepartment.forEach((value) => {
+            employeeCountByDepartment.with.forEach((value) => {
                 $(".departmentLocationList").append(
                     '<div class="row departmentInformation" data-bs-toggle="collapse" href=".addDepartmentLocationMenu" role="button" aria-expanded="false" aria-controls="addDepartmentLocationMenu" id="'
                     + value.departmentID +
@@ -797,9 +815,24 @@ departmentMenuPopulation = () => {
                     '</p></div><div class="col col-sm-3 d-none d-sm-block align-items-center"><p class="m-0">'
                     + value.location +
                     '</p></div><div class="col-4 col-sm-3"><p class="m-0 text-right">'
-                    + value.employees + "</p></div></div"
+                    + value.employees + "</p></div></div>"
                 );
-        }) 
+            });
+        
+            employeeCountByDepartment.without.forEach((value) => {
+                $(".departmentLocationList").append(
+                    '<div class="row departmentInformation" data-bs-toggle="collapse" href=".addDepartmentLocationMenu" role="button" aria-expanded="false" aria-controls="addDepartmentLocationMenu" id="'
+                    + value.departmentID +
+                    '" data-locationID="' 
+                    + value.locationID +
+                    '"><div class="col-6 col-sm-6 align-items-center><p class="m-0">'
+                    + value.department +
+                    '</p></div><div class="col col-sm-3 d-none d-sm-block align-items-center"><p class="m-0">'
+                    + value.location +
+                    '</p></div><div class="col-4 col-sm-3"><p class="m-0 text-right">0</p></div></div>'
+                );
+            });
+        
 },
 // Populate Location Menu
 locationMenuPopulation = () => {
@@ -808,8 +841,7 @@ locationMenuPopulation = () => {
     $("#addLocationBtn").removeClass("d-none"),
     $(".departmentInformationHeader").addClass("d-none"),
     $(".locationInformationHeader").removeClass("d-none");
-        departmentCountByLocation.forEach((value) => {
-        
+        departmentCountByLocation.with.forEach((value) => {
             $(".departmentLocationList").append(
                 '<div class="row locationInformation" data-bs-toggle="collapse" href=".addDepartmentLocationMenu" role="button" aria-expanded="false" aria-controls="addDepartmentLocationMenu" id="'
                 + value.locationID +
@@ -818,9 +850,18 @@ locationMenuPopulation = () => {
                 '</p></div><div class="col-5 col-sm-3 text-right"><p class="m-0">'
                 + value.departments +
                 '</p></div><div class="col-2 d-none d-sm-inline-block"></div></div>'
+            )
+        });    
 
-            );    
-    })
+        departmentCountByLocation.without.forEach((value) => {
+            $(".departmentLocationList").append(
+                '<div class="row locationInformation" data-bs-toggle="collapse" href=".addDepartmentLocationMenu" role="button" aria-expanded="false" aria-controls="addDepartmentLocationMenu" id="'
+                + value.locationID +
+                '"><div class="col-2 d-none d-sm-inline-block"></div><div class="col-7 col-sm-5"><p class="m-0">'
+                + value.location + 
+                '</p></div><div class="col-5 col-sm-3 text-right"><p class="m-0">0</p></div><div class="col-2 d-none d-sm-inline-block"></div></div>'
+            )
+        });
 },
 // Populate Location Input 
 locationInputPopulation = (value) => {
@@ -856,20 +897,20 @@ switch (type) {
         $("#confirmationBody").empty(), 
         $("#confirmationTitle").text("Congrats!"), 
         $("#confirmationBody").append("<p>" + type + " has been " + instruction + "!</p>"), 
-        $("#confirmationModal").modal();
+        $("#confirmationModal").modal("show");
     } else {
         if (err == "error") {
            $("#confirmationTitle").empty(),
            $("#confirmationBody").empty(),
            $("#confirmationTitle").text("Failed!"),
            $("#confirmationBody").append("<p>Error: Form data cannot be processed. Please try again.</p>"),
-           $("#confirmationModal").modal();
+           $("#confirmationModal").modal("show");
         } else {
            $("#confirmationTitle").empty(),
            $("#confirmationBody").empty(),
            $("#confirmationTitle").text("Failed!"),
            $("#confirmationBody").append("<p>" + type + " could not be " + instruction + ".</p><p>Code: " + err + "<br>Description: " + errdescription + "</p>"),
-           $("#confirmationModal").modal();
+           $("#confirmationModal").modal("show");
         }
     }  
 };

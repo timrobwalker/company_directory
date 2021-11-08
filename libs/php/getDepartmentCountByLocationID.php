@@ -26,8 +26,9 @@
 		exit;
 
 	}	
+	
+	$sql = 'SELECT locationID, l.name as location, COUNT(*) as departments FROM department d LEFT JOIN location l ON (l.id = d.locationID) where locationID = ? GROUP BY locationID';
 
-    $sql = 'SELECT locationID, l.name as location, COUNT(*) as departments FROM department d LEFT JOIN location l ON (l.id = d.locationID) where locationID = ? GROUP BY locationID';
 
     if ($query = $conn->prepare($sql)) {
         $query->bind_param("i", $_REQUEST['id']);

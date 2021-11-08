@@ -1,8 +1,5 @@
 <?php
 	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("config.php");
@@ -26,8 +23,6 @@
 		exit;
 
 	}	
-
-	// SQL does not accept parameters and so is not prepared
 
 	$query = 'SELECT * FROM location';
 
